@@ -10,19 +10,13 @@ from api.serializers import EmployeeSerializer, CompanySerializer
 
 class BaseSetup(APITestCase):
     def setUp(self):
-        self.company_1 = baker.make('Company')
-        self.company_2 = baker.make('Company')
-        self.company_data = {
-            "trading_name": "Disney",
-            "name": "disney"
-        }
-        self.company_data_2 = {
-            "trading_name": "Netflix",
-            "name": "netflix"
-        }
+        self.company_1 = baker.make("Company")
+        self.company_2 = baker.make("Company")
+        self.company_data = {"trading_name": "Disney", "name": "disney"}
+        self.company_data_2 = {"trading_name": "Netflix", "name": "netflix"}
 
-        self.employee_1 = baker.make('Employee')
-        self.employee_2 = baker.make('Employee')
+        self.employee_1 = baker.make("Employee")
+        self.employee_2 = baker.make("Employee")
         self.employee_data = {
             "first_name": "Alvo",
             "last_name": "Dumbledore",
@@ -39,7 +33,7 @@ class BaseSetup(APITestCase):
     # Companies
     def create_company(self, data: dict):
         response = self.client.post(
-            reverse('v1:company-list'),
+            reverse("v1:company-list"),
             data=data,
         )
 
@@ -47,21 +41,21 @@ class BaseSetup(APITestCase):
 
     def get_company(self, company_id: int):
         response = self.client.get(
-            reverse('v1:company-detail', args=[int(company_id)]),
+            reverse("v1:company-detail", args=[int(company_id)]),
         )
 
         return response
 
     def delete_company(self, company_id: int):
         response = self.client.delete(
-            reverse('v1:company-detail', args=[int(company_id)]),
+            reverse("v1:company-detail", args=[int(company_id)]),
         )
 
         return response
 
     def update_company(self, company_id: int, data: dict):
         response = self.client.put(
-            reverse('v1:company-detail', args=[int(company_id)]),
+            reverse("v1:company-detail", args=[int(company_id)]),
             data=data,
         )
 
@@ -69,7 +63,7 @@ class BaseSetup(APITestCase):
 
     def list_companies(self, data: dict = None):
         response = self.client.get(
-            reverse('v1:company-list'),
+            reverse("v1:company-list"),
             data=data,
         )
 
@@ -77,7 +71,7 @@ class BaseSetup(APITestCase):
 
     def partial_update_company(self, company_id: int, data: dict):
         response = self.client.patch(
-            reverse('v1:company-detail', args=[int(company_id)]),
+            reverse("v1:company-detail", args=[int(company_id)]),
             data=data,
         )
 
@@ -86,7 +80,7 @@ class BaseSetup(APITestCase):
     # Employees
     def create_employee(self, data: dict):
         response = self.client.post(
-            reverse('v1:employee-list'),
+            reverse("v1:employee-list"),
             data=data,
         )
 
@@ -94,21 +88,21 @@ class BaseSetup(APITestCase):
 
     def get_employee(self, employee_username: str):
         response = self.client.get(
-            reverse('v1:employee-detail', args=[str(employee_username)]),
+            reverse("v1:employee-detail", args=[str(employee_username)]),
         )
 
         return response
 
     def delete_employee(self, employee_username: str):
         response = self.client.delete(
-            reverse('v1:employee-detail', args=[str(employee_username)]),
+            reverse("v1:employee-detail", args=[str(employee_username)]),
         )
 
         return response
 
     def update_employee(self, employee_username: str, data: dict):
         response = self.client.put(
-            reverse('v1:employee-detail', args=[str(employee_username)]),
+            reverse("v1:employee-detail", args=[str(employee_username)]),
             data=data,
         )
 
@@ -116,7 +110,7 @@ class BaseSetup(APITestCase):
 
     def list_employees(self, data: dict = None):
         response = self.client.get(
-            reverse('v1:employee-list'),
+            reverse("v1:employee-list"),
             data=data,
         )
 
@@ -124,7 +118,7 @@ class BaseSetup(APITestCase):
 
     def partial_update_employee(self, employee_username: str, data: dict):
         response = self.client.patch(
-            reverse('v1:employee-detail', args=[str(employee_username)]),
+            reverse("v1:employee-detail", args=[str(employee_username)]),
             data=data,
         )
 
@@ -138,43 +132,61 @@ class TestCompany(BaseSetup):
 
         # try to create a company with the same name
         create_company_response = self.create_company(self.company_data)
-        self.assertEqual(create_company_response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.company_data['name'] = self.company_data['name'].upper()
+        self.assertEqual(
+            create_company_response.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        self.company_data["name"] = self.company_data["name"].upper()
         create_company_response = self.create_company(data=self.company_data)
-        self.assertEqual(create_company_response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            create_company_response.status_code, status.HTTP_400_BAD_REQUEST
+        )
         with self.assertRaisesMessage(ValidationError, "This name already exists"):
             serializer = CompanySerializer(data=self.company_data)
             serializer.is_valid(raise_exception=True)
 
     def test_retrieve_company_by_id(self):
         retrieve_company_by_id_response = self.get_company(company_id=self.company_1.id)
-        self.assertEqual(retrieve_company_by_id_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(retrieve_company_by_id_response.json()['name'], self.company_1.name)
-        self.assertEqual(retrieve_company_by_id_response.json()['trading_name'], self.company_1.trading_name)
+        self.assertEqual(
+            retrieve_company_by_id_response.status_code, status.HTTP_200_OK
+        )
+        self.assertEqual(
+            retrieve_company_by_id_response.json()["name"], self.company_1.name
+        )
+        self.assertEqual(
+            retrieve_company_by_id_response.json()["trading_name"],
+            self.company_1.trading_name,
+        )
 
         retrieve_company_by_id_response = self.get_company(company_id=99)
-        self.assertEqual(retrieve_company_by_id_response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            retrieve_company_by_id_response.status_code, status.HTTP_404_NOT_FOUND
+        )
 
     def test_delete_company(self):
         delete_company_response = self.delete_company(company_id=self.company_1.id)
-        self.assertEqual(delete_company_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(
+            delete_company_response.status_code, status.HTTP_204_NO_CONTENT
+        )
 
         get_company_response = self.get_company(self.company_1.id)
         self.assertEqual(get_company_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(get_company_response.json()['situation'], Company.EXCLUDED)
+        self.assertEqual(get_company_response.json()["situation"], Company.EXCLUDED)
 
     def test_update_company(self):
-        update_company_response = self.update_company(company_id=self.company_1.id, data=self.company_data_2)
+        update_company_response = self.update_company(
+            company_id=self.company_1.id, data=self.company_data_2
+        )
         self.assertEqual(update_company_response.status_code, status.HTTP_200_OK)
 
     def test_partial_update_company(self):
         partial_update_company_response = self.partial_update_company(
-            company_id=self.company_1.id,
-            data={"situation": Company.INACTIVE}
+            company_id=self.company_1.id, data={"situation": Company.INACTIVE}
         )
-        self.assertEqual(partial_update_company_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            partial_update_company_response.status_code, status.HTTP_200_OK
+        )
         get_company_response = self.get_company(self.company_1.id)
-        self.assertEqual(get_company_response.json()['situation'], Company.INACTIVE)
+        self.assertEqual(get_company_response.json()["situation"], Company.INACTIVE)
 
     def test_list_companies(self):
         list_companies_response = self.list_companies()
@@ -188,45 +200,74 @@ class TestEmployee(BaseSetup):
         self.assertEqual(create_employee_response.status_code, status.HTTP_201_CREATED)
 
         create_employee_response = self.create_employee(data=self.employee_data)
-        self.assertEqual(create_employee_response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.employee_data['username'] = self.employee_data['username'].upper()
+        self.assertEqual(
+            create_employee_response.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        self.employee_data["username"] = self.employee_data["username"].upper()
         create_employee_response = self.create_employee(data=self.employee_data)
-        self.assertEqual(create_employee_response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            create_employee_response.status_code, status.HTTP_400_BAD_REQUEST
+        )
         with self.assertRaisesMessage(ValidationError, "This username already exists"):
             serializer = EmployeeSerializer(data=self.employee_data)
             serializer.is_valid(raise_exception=True)
 
     def test_retrieve_employee(self):
-        retrieve_employee_by_id_response = self.get_employee(employee_username=self.employee_1.username)
-        self.assertEqual(retrieve_employee_by_id_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(retrieve_employee_by_id_response.json()['first_name'], self.employee_1.first_name)
-        self.assertEqual(retrieve_employee_by_id_response.json()['last_name'], self.employee_1.last_name)
-        self.assertEqual(retrieve_employee_by_id_response.json()['username'], self.employee_1.username)
+        retrieve_employee_by_id_response = self.get_employee(
+            employee_username=self.employee_1.username
+        )
+        self.assertEqual(
+            retrieve_employee_by_id_response.status_code, status.HTTP_200_OK
+        )
+        self.assertEqual(
+            retrieve_employee_by_id_response.json()["first_name"],
+            self.employee_1.first_name,
+        )
+        self.assertEqual(
+            retrieve_employee_by_id_response.json()["last_name"],
+            self.employee_1.last_name,
+        )
+        self.assertEqual(
+            retrieve_employee_by_id_response.json()["username"],
+            self.employee_1.username,
+        )
 
         retrieve_employee_by_id_response = self.get_employee(employee_username="malfoy")
-        self.assertEqual(retrieve_employee_by_id_response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            retrieve_employee_by_id_response.status_code, status.HTTP_404_NOT_FOUND
+        )
 
     def test_update_employee(self):
-        update_employee_response = self.update_employee(employee_username=self.employee_1.username, data=self.employee_data_2)
+        update_employee_response = self.update_employee(
+            employee_username=self.employee_1.username, data=self.employee_data_2
+        )
         self.assertEqual(update_employee_response.status_code, status.HTTP_200_OK)
 
     def test_partial_update_employee(self):
         partial_update_employee_response = self.partial_update_employee(
             employee_username=self.employee_1.username,
-            data={"situation": Employee.INACTIVE}
+            data={"situation": Employee.INACTIVE},
         )
-        self.assertEqual(partial_update_employee_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            partial_update_employee_response.status_code, status.HTTP_200_OK
+        )
 
-        get_employee_response = self.get_employee(employee_username=self.employee_1.username)
-        self.assertEqual(get_employee_response.json()['situation'], Employee.INACTIVE)
+        get_employee_response = self.get_employee(
+            employee_username=self.employee_1.username
+        )
+        self.assertEqual(get_employee_response.json()["situation"], Employee.INACTIVE)
 
     def test_delete_employee(self):
         delete_employee_response = self.delete_employee(self.employee_1.username)
-        self.assertEqual(delete_employee_response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(
+            delete_employee_response.status_code, status.HTTP_204_NO_CONTENT
+        )
 
-        get_employee_response = self.get_employee(employee_username=self.employee_1.username)
+        get_employee_response = self.get_employee(
+            employee_username=self.employee_1.username
+        )
         self.assertEqual(get_employee_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(get_employee_response.json()['situation'], Employee.EXCLUDED)
+        self.assertEqual(get_employee_response.json()["situation"], Employee.EXCLUDED)
 
     def test_list_employees(self):
         list_employees_response = self.list_employees()

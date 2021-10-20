@@ -11,17 +11,22 @@ class Company(models.Model):
         updated: last update.
         created: creation date.
     """
-    ACTIVE = 'A'
-    INACTIVE = 'I'
-    EXCLUDED = 'E'
+
+    ACTIVE = "A"
+    INACTIVE = "I"
+    EXCLUDED = "E"
     SITUATION_CHOICES = [
-        (ACTIVE, 'Active'),
-        (INACTIVE, 'Inactive'),
-        (EXCLUDED, 'Excluded'),
+        (ACTIVE, "Active"),
+        (INACTIVE, "Inactive"),
+        (EXCLUDED, "Excluded"),
     ]
-    trading_name = models.CharField(max_length=150, verbose_name='Trading name')
-    name = models.CharField(max_length=150, unique=True, verbose_name='Name', blank=False, null=False)
-    situation = models.CharField(max_length=1, choices=SITUATION_CHOICES, default=ACTIVE)
+    trading_name = models.CharField(max_length=150, verbose_name="Trading name")
+    name = models.CharField(
+        max_length=150, unique=True, verbose_name="Name", blank=False, null=False
+    )
+    situation = models.CharField(
+        max_length=1, choices=SITUATION_CHOICES, default=ACTIVE
+    )
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -41,19 +46,24 @@ class Employee(models.Model):
         updated: last update.
         created: creation date.
     """
-    ACTIVE = 'A'
-    INACTIVE = 'I'
-    EXCLUDED = 'E'
+
+    ACTIVE = "A"
+    INACTIVE = "I"
+    EXCLUDED = "E"
     SITUATION_CHOICES = [
-        (ACTIVE, 'Active'),
-        (INACTIVE, 'Inactive'),
-        (EXCLUDED, 'Excluded'),
+        (ACTIVE, "Active"),
+        (INACTIVE, "Inactive"),
+        (EXCLUDED, "Excluded"),
     ]
-    first_name = models.CharField(max_length=150, verbose_name='First name')
-    last_name = models.CharField(max_length=150, verbose_name='Last name')
-    username = models.CharField(max_length=150, unique=True, verbose_name='Username', blank=False, null=False)
-    company = models.ManyToManyField(Company, related_name='employee')
-    situation = models.CharField(max_length=1, choices=SITUATION_CHOICES, default=ACTIVE)
+    first_name = models.CharField(max_length=150, verbose_name="First name")
+    last_name = models.CharField(max_length=150, verbose_name="Last name")
+    username = models.CharField(
+        max_length=150, unique=True, verbose_name="Username", blank=False, null=False
+    )
+    company = models.ManyToManyField(Company, related_name="employee")
+    situation = models.CharField(
+        max_length=1, choices=SITUATION_CHOICES, default=ACTIVE
+    )
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

@@ -19,15 +19,15 @@ class CompanyViewSet(ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
-        if self.action == 'list':
-            return Company.objects.exclude(situation='E')
+        if self.action == "list":
+            return Company.objects.exclude(situation="E")
         return super().get_queryset()
 
 
 class EmployeesViewSet(ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    lookup_field = 'username'
+    lookup_field = "username"
 
     def destroy(self, request: Request, *args, **kwargs) -> Response:
         employee = self.get_object()
@@ -38,6 +38,6 @@ class EmployeesViewSet(ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
-        if self.action == 'list':
-            return Employee.objects.exclude(situation='E')
+        if self.action == "list":
+            return Employee.objects.exclude(situation="E")
         return super().get_queryset()
