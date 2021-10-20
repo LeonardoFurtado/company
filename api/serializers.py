@@ -4,10 +4,8 @@ from .models import Company, Employee
 
 
 class EmployeeSerializer(ModelSerializer):
-    # company = serializers.SerializerMethodField('get_companies_names')
     company = serializers.SlugRelatedField(
         many=True,
-        # read_only=True,
         queryset=Company.objects.all(),
         slug_field='trading_name'
     )
@@ -19,12 +17,6 @@ class EmployeeSerializer(ModelSerializer):
         extra_kwargs = {
             'url': {'lookup_field': 'username'}
         }
-
-    # @staticmethod
-    # def get_companies_names(obj):
-    #     companies_trading_name_list = [company.trading_name for company in obj.company.all()]
-    #
-    #     return companies_trading_name_list
 
 
 class CompanySerializer(ModelSerializer):
