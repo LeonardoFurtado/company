@@ -39,15 +39,15 @@ excluded. Exemplo:
   "situation": "A"
 }
 ```
-POST: Para criar uma nova empresa basta utilizar o POST em: company-apiv1.herokuapp.com/api/companies/
+**POST**: Para criar uma nova empresa basta utilizar o POST em: company-apiv1.herokuapp.com/api/companies/
 
-GET: Para listar todas as empresas cadastradas basta utilizar o GET em: company-apiv1.herokuapp.com/api/companies/
+**GET**: Para listar todas as empresas cadastradas basta utilizar o GET em: company-apiv1.herokuapp.com/api/companies/
 
-GET: Para acessar uma empresa especificar basta especificar seu id: company-apiv1.herokuapp.com/api/companies/{id}/
+**GET**: Para acessar uma empresa especificar basta especificar seu id: company-apiv1.herokuapp.com/api/companies/{id}/
 
-DELETE: Para excluir uma empresa especificar basta especificar seu id: company-apiv1.herokuapp.com/api/companies/{id}/
+**DELETE**: Para excluir uma empresa especificar basta especificar seu id: company-apiv1.herokuapp.com/api/companies/{id}/
 
-PUT/PATCH: Para atualizar completamente ou parcialmente uma empresa basta especificar seu id: company-apiv1.herokuapp.com/api/companies/{id}/
+**PUT/PATCH**: Para atualizar completamente ou parcialmente uma empresa basta especificar seu id: company-apiv1.herokuapp.com/api/companies/{id}/
 
 ### Employee
 
@@ -70,15 +70,15 @@ possíve informar id de uma ou mais companies no campo `company`. Exemplo:
 
 company-apiv1.herokuapp.com/api/employees/
 
-POST: Para criar umm novo funcionario basta utilizar o POST em: company-apiv1.herokuapp.com/api/employees/
+**POST**: Para criar umm novo funcionario basta utilizar o POST em: company-apiv1.herokuapp.com/api/employees/
 
-GET: Para listar todos os funcionários cadastradas basta utilizar o GET em: company-apiv1.herokuapp.com/api/employees/
+**GET**: Para listar todos os funcionários cadastradas basta utilizar o GET em: company-apiv1.herokuapp.com/api/employees/
 
-GET: Para acessar um funcionario especificar basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
+**GET**: Para acessar um funcionario especificar basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
 
-DELETE: Para excluir um funcionario especificar basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
+**DELETE**: Para excluir um funcionario especificar basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
 
-PUT/PATCH: Para atualizar completamente ou parcialmente um funcionario basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
+**PUT/PATCH**: Para atualizar completamente ou parcialmente um funcionario basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
 
 ## Executando localmente :house:
 
