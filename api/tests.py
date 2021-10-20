@@ -159,6 +159,8 @@ class TestCompany(BaseSetup):
             data={"situation": Company.INACTIVE}
         )
         self.assertEqual(partial_update_company_response.status_code, status.HTTP_200_OK)
+        get_company_response = self.get_company(self.company_1.id)
+        self.assertEqual(get_company_response.json()['situation'], Company.INACTIVE)
 
     def test_list_companies(self):
         pass
@@ -193,7 +195,9 @@ class TestEmployee(BaseSetup):
             data={"situation": Employee.INACTIVE}
         )
         self.assertEqual(partial_update_employee_response.status_code, status.HTTP_200_OK)
-        # TODO: Need to check if situation changed.
+
+        get_employee_response = self.get_employee(employee_username=self.employee_1.username)
+        self.assertEqual(get_employee_response.json()['situation'], Employee.INACTIVE)
 
     def test_delete_employee(self):
         delete_employee_response = self.delete_employee(self.employee_1.username)
