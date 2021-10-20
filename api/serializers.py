@@ -16,19 +16,20 @@ class EmployeeSerializer(ModelSerializer):
         fields = ['id', 'first_name', 'last_name', 'username', 'company', 'situation']
         lookup_field = 'username'
         extra_kwargs = {
-            'url': {'lookup_field': 'username'}
+            'url': {'lookup_field': 'username'},
         }
 
     @staticmethod
     def validate_username(value):
+        value = value.replace(' ', '').lower()
         try:
-            Employee.objects.get(username=value.lower())
+            Employee.objects.get(username=value)
         except ObjectDoesNotExist:
             pass
         else:
             raise serializers.ValidationError("This username already exists")
 
-        return value.lower()
+        return value
 
 
 class CompanySerializer(ModelSerializer):
@@ -46,12 +47,12 @@ class CompanySerializer(ModelSerializer):
 
     @staticmethod
     def validate_name(value):
+        value = value.replace(' ', '').lower()
         try:
-            Company.objects.get(name=value.lower())
+            Company.objects.get(name=value)
         except ObjectDoesNotExist:
             pass
         else:
             raise serializers.ValidationError("This name already exists")
 
-        return value.lower()
-
+        return value
