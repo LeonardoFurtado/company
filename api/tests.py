@@ -145,9 +145,12 @@ class TestCompany(BaseSetup):
         self.assertEqual(retrieve_company_by_id_response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_company(self):
-        # TODO: Check if the situation has been changed
         delete_company_response = self.delete_company(company_id=self.company_1.id)
         self.assertEqual(delete_company_response.status_code, status.HTTP_204_NO_CONTENT)
+
+        get_company_response = self.get_company(self.company_1.id)
+        self.assertEqual(get_company_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(get_company_response.json()['situation'], Company.EXCLUDED)
 
     def test_update_company(self):
         update_company_response = self.update_company(company_id=self.company_1.id, data=self.company_data_2)
@@ -202,6 +205,10 @@ class TestEmployee(BaseSetup):
     def test_delete_employee(self):
         delete_employee_response = self.delete_employee(self.employee_1.username)
         self.assertEqual(delete_employee_response.status_code, status.HTTP_204_NO_CONTENT)
+
+        get_employee_response = self.get_employee(employee_username=self.employee_1.username)
+        self.assertEqual(get_employee_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(get_employee_response.json()['situation'], Employee.EXCLUDED)
 
     def test_list_emplyees(self):
         pass
