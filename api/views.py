@@ -25,7 +25,7 @@ class CompanyViewSet(ModelViewSet):
 
 
 class EmployeesViewSet(ModelViewSet):
-    queryset = Employee.objects.exclude(situation='E')
+    queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     lookup_field = 'username'
 
