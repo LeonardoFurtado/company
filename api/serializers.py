@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import Company, Employee
@@ -18,6 +19,17 @@ class EmployeeSerializer(ModelSerializer):
             'url': {'lookup_field': 'username'}
         }
 
+    @staticmethod
+    def validate_username(value):
+        try:
+            Employee.objects.get(username=value.lower())
+        except ObjectDoesNotExist:
+            pass
+        else:
+            raise serializers.ValidationError("This username already exists")
+
+        return value.lower()
+
 
 class CompanySerializer(ModelSerializer):
     employee = serializers.SerializerMethodField('get_employees_names')
@@ -31,3 +43,15 @@ class CompanySerializer(ModelSerializer):
         employees_names_list = [employee.username for employee in obj.employee.all()]
 
         return employees_names_list
+
+    @staticmethod
+    def validate_name(value):
+        try:
+            Company.objects.get(name=value.lower())
+        except ObjectDoesNotExist:
+            pass
+        else:
+            raise serializers.ValidationError("This name already exists")
+
+        return value.lower()
+
