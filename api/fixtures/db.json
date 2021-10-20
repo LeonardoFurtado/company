@@ -1,0 +1,110 @@
+[
+  {
+    "model": "api.company",
+    "pk": 1,
+    "fields": {
+      "trading_name": "Globo Com",
+      "name": "globo",
+      "situation": "A",
+      "updated": "2021-10-20T17:33:32.606Z",
+      "created": "2021-10-20T17:33:32.606Z"
+    }
+  },
+  {
+    "model": "api.company",
+    "pk": 2,
+    "fields": {
+      "trading_name": "Company Hero",
+      "name": "company hero",
+      "situation": "A",
+      "updated": "2021-10-20T17:34:28.303Z",
+      "created": "2021-10-20T17:34:28.303Z"
+    }
+  },
+  {
+    "model": "api.company",
+    "pk": 3,
+    "fields": {
+      "trading_name": "HBO",
+      "name": "hbo",
+      "situation": "A",
+      "updated": "2021-10-20T17:34:47.597Z",
+      "created": "2021-10-20T17:34:47.597Z"
+    }
+  },
+  {
+    "model": "api.company",
+    "pk": 4,
+    "fields": {
+      "trading_name": "André Lanches",
+      "name": "a b lanches ltda",
+      "situation": "A",
+      "updated": "2021-10-20T17:35:40.622Z",
+      "created": "2021-10-20T17:35:40.622Z"
+    }
+  },
+  {
+    "model": "api.employee",
+    "pk": 1,
+    "fields": {
+      "first_name": "Leonardo",
+      "last_name": "Furtado",
+      "username": "lfurtado",
+      "situation": "A",
+      "updated": "2021-10-20T17:36:09.064Z",
+      "created": "2021-10-20T17:36:09.064Z",
+      "company": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "api.employee",
+    "pk": 2,
+    "fields": {
+      "first_name": "Lord",
+      "last_name": "Voldemort",
+      "username": "valdinho",
+      "situation": "A",
+      "updated": "2021-10-20T17:37:03.867Z",
+      "created": "2021-10-20T17:37:03.868Z",
+      "company": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "api.employee",
+    "pk": 3,
+    "fields": {
+      "first_name": "Eric",
+      "last_name": "Clapton",
+      "username": "clap",
+      "situation": "A",
+      "updated": "2021-10-20T17:37:25.460Z",
+      "created": "2021-10-20T17:37:25.460Z",
+      "company": [
+        4
+      ]
+    }
+  },
+  {
+    "model": "api.employee",
+    "pk": 4,
+    "fields": {
+      "first_name": "Draco",
+      "last_name": "Malfoy",
+      "username": "ihatemuggles",
+      "situation": "A",
+      "updated": "2021-10-20T17:42:08.131Z",
+      "created": "2021-10-20T17:42:08.131Z",
+      "company": [
+        1,
+        4
+      ]
+    }
+  }
+]
