@@ -5,11 +5,11 @@ class Company(models.Model):
     """Model used to represent a Company
 
     Attributes:
-        name: Company name
-        trading_name:
-        situation:
-        updated:
-        created:
+        name: unique company name.
+        trading_name: not unique name, also called `nome fantasia`.
+        situation: describe if company is active, inactive or excluded.
+        updated: last update.
+        created: creation date.
     """
     ACTIVE = 'A'
     INACTIVE = 'I'
@@ -26,18 +26,20 @@ class Company(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.trading_name
+        return self.name
 
 
 class Employee(models.Model):
-    """
-    first_name:
-    last_name:
-    username:
-    company:
-    situation:
-    updated:
-    created:
+    """Model used to represent a Employee
+
+    Attirbutes:
+        first_name: employee first name
+        last_name: employee last name
+        username: unique username of an employee
+        company: companies to which this employee belongs
+        situation: describe if company is active, inactive or excluded.
+        updated: last update.
+        created: creation date.
     """
     ACTIVE = 'A'
     INACTIVE = 'I'
