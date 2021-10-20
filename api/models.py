@@ -19,8 +19,8 @@ class Company(models.Model):
         (INACTIVE, 'Inactive'),
         (EXCLUDED, 'Excluded'),
     ]
-    trading_name = models.CharField(max_length=150, verbose_name='Name')
-    name = models.CharField(max_length=150, unique=True, verbose_name='Trading name', blank=False, null=False)
+    trading_name = models.CharField(max_length=150, verbose_name='Trading name')
+    name = models.CharField(max_length=150, unique=True, verbose_name='Name', blank=False, null=False)
     situation = models.CharField(max_length=1, choices=SITUATION_CHOICES, default=ACTIVE)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
