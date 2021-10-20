@@ -8,16 +8,18 @@ from model_bakery import baker
 class BaseSetup(APITestCase):
     def setUp(self):
         self.company_1 = baker.make('Company')
+        self.company_2 = baker.make('Company')
         self.company_data = {
-            "name": "Disney",
-            "trading_name": "disney"
+            "trading_name": "Disney",
+            "name": "disney"
         }
         self.company_data_2 = {
-            "name": "Netflix",
-            "trading_name": "netflix"
+            "trading_name": "Netflix",
+            "name": "netflix"
         }
 
         self.employee_1 = baker.make('Employee')
+        self.employee_2 = baker.make('Employee')
         self.employee_data = {
             "first_name": "Alvo",
             "last_name": "Dumbledore",
@@ -131,7 +133,7 @@ class TestCompany(BaseSetup):
         create_company_response = self.create_company(self.company_data)
         self.assertEqual(create_company_response.status_code, status.HTTP_201_CREATED)
 
-        # try to create a company with the same trading_name
+        # try to create a company with the same name
         create_company_response = self.create_company(self.company_data)
         self.assertEqual(create_company_response.status_code, status.HTTP_400_BAD_REQUEST)
 

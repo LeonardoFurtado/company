@@ -2,12 +2,14 @@ from django.db import models
 
 
 class Company(models.Model):
-    """
-    name:
-    trading_name:
-    situation:
-    updated:
-    created:
+    """Model used to represent a Company
+
+    Attributes:
+        name: Company name
+        trading_name:
+        situation:
+        updated:
+        created:
     """
     ACTIVE = 'A'
     INACTIVE = 'I'
@@ -17,8 +19,8 @@ class Company(models.Model):
         (INACTIVE, 'Inactive'),
         (EXCLUDED, 'Excluded'),
     ]
-    name = models.CharField(max_length=150, verbose_name='Name')
-    trading_name = models.CharField(max_length=150, unique=True, verbose_name='Trading name', blank=False, null=False)
+    trading_name = models.CharField(max_length=150, verbose_name='Name')
+    name = models.CharField(max_length=150, unique=True, verbose_name='Trading name', blank=False, null=False)
     situation = models.CharField(max_length=1, choices=SITUATION_CHOICES, default=ACTIVE)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

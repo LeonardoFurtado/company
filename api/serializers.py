@@ -7,7 +7,7 @@ class EmployeeSerializer(ModelSerializer):
     company = serializers.SlugRelatedField(
         many=True,
         queryset=Company.objects.all(),
-        slug_field='trading_name'
+        slug_field='name'
     )
 
     class Meta:
