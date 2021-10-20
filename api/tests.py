@@ -1,8 +1,11 @@
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.test import APITestCase
 from api.models import Company, Employee
 from model_bakery import baker
+
+from api.serializers import EmployeeSerializer, CompanySerializer
 
 
 class BaseSetup(APITestCase):
@@ -136,6 +139,12 @@ class TestCompany(BaseSetup):
         # try to create a company with the same name
         create_company_response = self.create_company(self.company_data)
         self.assertEqual(create_company_response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.company_data['name'] = self.company_data['name'].upper()
+        create_company_response = self.create_company(data=self.company_data)
+        self.assertEqual(create_company_response.status_code, status.HTTP_400_BAD_REQUEST)
+        with self.assertRaisesMessage(ValidationError, "This name already exists"):
+            serializer = CompanySerializer(data=self.company_data)
+            serializer.is_valid(raise_exception=True)
 
     def test_retrieve_company_by_id(self):
         retrieve_company_by_id_response = self.get_company(company_id=self.company_1.id)
@@ -180,7 +189,12 @@ class TestEmployee(BaseSetup):
 
         create_employee_response = self.create_employee(data=self.employee_data)
         self.assertEqual(create_employee_response.status_code, status.HTTP_400_BAD_REQUEST)
-        # TODO: Implement capitalization test
+        self.employee_data['username'] = self.employee_data['username'].upper()
+        create_employee_response = self.create_employee(data=self.employee_data)
+        self.assertEqual(create_employee_response.status_code, status.HTTP_400_BAD_REQUEST)
+        with self.assertRaisesMessage(ValidationError, "This username already exists"):
+            serializer = EmployeeSerializer(data=self.employee_data)
+            serializer.is_valid(raise_exception=True)
 
     def test_retrieve_employee(self):
         retrieve_employee_by_id_response = self.get_employee(employee_username=self.employee_1.username)
