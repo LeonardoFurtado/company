@@ -16,7 +16,7 @@ trabalha foi adicionado o lookfield. Nos serializers é realidade uma validaçã
 da empresa para impedir que possam ser criados dois funcionários com nomes iguais porém com cases diferentes
 como `Malfoy`e `malfoy`.
 
-## Uso
+## Uso :electric_plug:
 
 A documentação da API foi gerada utilizando Swagger e está disponível na raiz do site da
 api: https://company-apiv1.herokuapp.com/
@@ -79,6 +79,17 @@ GET: Para acessar um funcionario especificar basta especificar seu id: company-a
 DELETE: Para excluir um funcionario especificar basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
 
 PUT/PATCH: Para atualizar completamente ou parcialmente um funcionario basta especificar seu id: company-apiv1.herokuapp.com/api/employees/{id}/
+
+## Executando localmente :house:
+
+O projeto conta com um Dockerfile e um docker-compose.yml, para rodar a API localmente basta executar:
+
+> docker-compose up
+
+Assim vc terá a documentação disponível em `0.0.0.0:8000` e a api rodando em `0.0.0.0:8000/api`
+Caso não queira inserir todos os dados manualmente, é possível executar o comando abaixo para carregar as fixtures:
+
+> docker-compose exec web python manage.py loaddata db
 
 ## FIM :coffin:
 
