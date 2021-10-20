@@ -168,7 +168,9 @@ class TestCompany(BaseSetup):
         self.assertEqual(get_company_response.json()['situation'], Company.INACTIVE)
 
     def test_list_companies(self):
-        pass
+        list_companies_response = self.list_companies()
+        self.assertEqual(list_companies_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(list_companies_response.json()), 2)
 
 
 class TestEmployee(BaseSetup):
@@ -212,5 +214,7 @@ class TestEmployee(BaseSetup):
         self.assertEqual(get_employee_response.status_code, status.HTTP_200_OK)
         self.assertEqual(get_employee_response.json()['situation'], Employee.EXCLUDED)
 
-    def test_list_emplyees(self):
-        pass
+    def test_list_employees(self):
+        list_employees_response = self.list_employees()
+        self.assertEqual(list_employees_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(list_employees_response.json()), 2)
