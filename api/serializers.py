@@ -6,38 +6,49 @@ from .models import Company, Employee
 
 class EmployeeSerializer(ModelSerializer):
     company = serializers.SlugRelatedField(
-        many=True,
-        queryset=Company.objects.all(),
-        slug_field='name'
+        many=True, queryset=Company.objects.all(), slug_field="name"
     )
 
     class Meta:
         model = Employee
-        fields = ['id', 'first_name', 'last_name', 'username', 'company', 'situation']
-        lookup_field = 'username'
+        fields = ["id", "first_name", "last_name", "username", "company", "situation"]
+        lookup_field = "username"
         extra_kwargs = {
-            'url': {'lookup_field': 'username'},
+            "url": {"lookup_field": "username"},
         }
 
-    @staticmethod
-    def validate_username(value):
-        value = value.replace(' ', '').lower()
+    def validate_username(self, value):
+        value = value.replace(" ", "").lower()
+
+        if self.instance:
+            instance_id = self.instance.id
+        else:
+            instance_id = None
+
         try:
-            Employee.objects.get(username=value)
+            Employee.objects.exclude(id=instance_id).get(username=value)
         except ObjectDoesNotExist:
             pass
         else:
-            raise serializers.ValidationError("This username already exists")
+            raise serializers.ValidationError({"username": "This username already exists"}, code="invalid")
 
         return value
 
 
 class CompanySerializer(ModelSerializer):
-    employee = serializers.SerializerMethodField('get_employees_names')
+    employee = serializers.SerializerMethodField("get_employees_names")
 
     class Meta:
         model = Company
-        fields = ['id', 'name', 'trading_name', 'employee', 'updated', 'created', 'situation']
+        fields = [
+            "id",
+            "name",
+            "trading_name",
+            "employee",
+            "updated",
+            "created",
+            "situation",
+        ]
 
     @staticmethod
     def get_employees_names(obj):
@@ -45,14 +56,19 @@ class CompanySerializer(ModelSerializer):
 
         return employees_names_list
 
-    @staticmethod
-    def validate_name(value):
-        value = value.replace(' ', '').lower()
+    def validate_name(self, value):
+        value = value.lower()
+
+        if self.instance:
+            instance_id = self.instance.id
+        else:
+            instance_id = None
+
         try:
-            Company.objects.get(name=value)
+            Company.objects.exclude(id=instance_id).get(name=value)
         except ObjectDoesNotExist:
             pass
         else:
-            raise serializers.ValidationError("This name already exists")
+            raise serializers.ValidationError({"name": "This name already exists"}, code="invalid")
 
         return value
